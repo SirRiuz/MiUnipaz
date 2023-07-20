@@ -1,21 +1,24 @@
-import { StyleSheet, Text, View } from 'react-native';
-import { StatusBar } from 'expo-status-bar';
-import Calendar from './screens/Calendar';
 import * as NavigationBar from 'expo-navigation-bar';
+import Calendar from './screens/Calendar';
 import Califications from './screens/Califications';
 import PagerView from 'react-native-pager-view';
-import AppBar from './components/AppBar';
+import { StyleSheet, View } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 
 export default function App()  {
-  NavigationBar.setVisibilityAsync("hidden");
-  NavigationBar.setButtonStyleAsync("dark");
+  NavigationBar.setBackgroundColorAsync("#F2F1F7");
   return (
     <View style={styles.container}>
-      <StatusBar translucent/>
+      <StatusBar backgroundColor="#F2F1F7"/>
       <PagerView style={{flex:1}}>
         <Calendar/>
         <Califications/>
       </PagerView>
+      <BottomMenu
+        onClose={() => {
+          setModal(() => false)
+        }}
+      />
     </View>
   )
 }
