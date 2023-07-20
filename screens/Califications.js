@@ -1,40 +1,332 @@
-import { RefreshControl, ScrollView, StyleSheet, Text, View } from "react-native"
-import * as NavigationBar from 'expo-navigation-bar';
-import AppBar from "../components/AppBar";
-import ItemGrup from "../components/ItemGrup";
 import Tag from "../components/Tag";
-import { useEffect } from "react";
+import CALIFICATIONS from "../califications";
+import Item from "../components/Item";
+import CheckSvg from "../assets/svg/Check";
+import FailSvg from "../assets/svg/Fail";
+import getStyles from "../helpers/get_styles";
+import Open from "../assets/svg/Open";
+import useCalifications from "../hooks/useCalifications";
+import BottomMenu from "../components/BottomModal"
+import settings from "../settings";
+import Dot from "../components/Dot"
+import { useState } from "react";
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+  Text,
+  RefreshControl,
+  Vibration
+} from "react-native";
+
+
+const RenderBottomSheet = props => {
+  return(
+    <View style={styles.bottomContainer}>
+      <Tag name="CALIFICATIONS"/>
+      <View
+        style={{
+          justifyContent:'center',
+          alignContent:'center',
+          backgroundColor:'white',
+          borderRadius:10,
+        }}
+      >
+        <Item
+          title={"4.5 semester average"}
+          styles={{borderRadius:100}}
+          titleStyle={{
+            color:"#010101",
+            fontWeight:"500",
+            fontSize:16}}
+
+          options={(<Open/>)}
+          subtitles={[
+            (
+              <Text
+                style={{
+                  color:"#979797",
+                  fontSize:12,
+                  fontWeight:"350"
+                }}
+              >Actual average of the this semester</Text>
+            )
+          ]}
+        />
+        <View
+          style={{
+            width:'100%',
+            paddingLeft:20,
+            paddingRight:20,
+            height:15,
+            justifyContent:'center',
+            alignContent:'center'
+          }}
+        >
+          <View
+            style={{
+              width:'100%',
+              height:1.1,
+              backgroundColor:'#d2d2d4',
+              opacity:.4,
+              borderRadius:10
+            }}
+          />
+        </View>
+        <View
+          style={{paddingTop:9, opacity:.8}}
+        >
+          {CALIFICATIONS.actual[0].califications.map((x, k) => (
+            <Item
+              key={k}
+              title={"Value court 30%"}
+              icon={<Dot
+                focus={!(x.isBadCalification)}
+                continue={!(
+                  k + 1==CALIFICATIONS.actual[0].califications.length)}
+              />}
+              titleStyle={{
+                fontSize:13,
+                color:'#505050',
+                opacity:.9,
+              }}
+              styles={{
+                height:30,
+                justifyContent:'flex-start',
+                alignContent:'flex-start',
+                alignItems:'flex-start',
+                elevation:0,
+                marginBottom:0,
+                borderRadius:100
+              }}
+              subtitles={[]}
+              options={(
+                <Text
+                  style={{
+                    fontSize:13,
+                    opacity:.9,
+                    color:'#505050'}}
+                >
+                  4.0
+                </Text>
+              )}
+            />
+          ))}
+        </View>
+      </View>
+      <Tag name="PREDICTIONS"/>
+      <View
+        style={{
+          justifyContent:'center',
+          alignContent:'center',
+          backgroundColor:'white',
+          borderRadius:10,
+          height:110
+        }}
+      >
+        <View>
+          {CALIFICATIONS.actual[0].califications.map((x, k) => (
+            <Item
+              key={k}
+              title={"First court"}
+              icon={<Dot
+                focus={!(x.isBadCalification)}
+                continue={!(
+                  k + 1==CALIFICATIONS.actual[0].califications.length)}
+              />}
+              titleStyle={{
+                fontSize:13,
+                color:'#505050',
+                opacity:.9,
+              }}
+              styles={{
+                height:30,
+                justifyContent:'flex-start',
+                alignContent:'flex-start',
+                alignItems:'flex-start',
+                elevation:0,
+                marginBottom:0,
+                borderRadius:100
+              }}
+              subtitles={[]}
+              options={(
+                <Text
+                  style={{
+                    fontSize:13,
+                    opacity:.9,
+                    color:'#505050'}}
+                >
+                  4.0
+                </Text>
+              )}
+            />
+          ))}
+        </View>
+      </View>
+    </View>
+  )
+}
 
 export default Califications = props => {
-  //NavigationBar.setBackgroundColorAsync("#DFEDF8");
+  const [isRefresh, setRefresh] = useState(false)
+  const [show, setShow] = useState(false)
+  const { data, isLoad } = useCalifications({
+    refresh:isRefresh}, () => {setRefresh(() => false)})
+  
+  var ITEMS = CALIFICATIONS.old.map((x, k) => (
+    <View key={k}>
+      <Tag isPlaceholder={true}/>
+        {x.map((_, b) => (
+          <Item
+            key={b}
+            isPlaceholder={true}
+            styles={getStyles(x, b)}
+            options={(
+              <View
+                style={{
+                  width:25,
+                  height:13,
+                  flexDirection:"row",
+                  justifyContent:"center",
+                  alignContent:"center",
+                  borderRadius:5,
+                  alignItems:"center",
+                  paddingLeft:5,
+                  backgroundColor:"#eeeef0"
+                }}
+              />
+            )}
+            subtitles={[
+              (
+                <View
+                  style={{
+                    width:65,
+                    height:13,
+                    flexDirection:"row",
+                    justifyContent:"center",
+                    alignContent:"center",
+                    borderRadius:5,
+                    alignItems:"center",
+                    paddingLeft:5,
+                    backgroundColor:"#eeeef0"
+                  }}
+                />
+              )
+            ]}
+          />
+        ))}
+    </View>
+  ))
+
+  if(!isLoad && data !== null) {
+    const ACTUAL = data.actual.map((x, k) => (
+      <Item
+        key={k}
+        title={x.signature}
+        options={(<Open/>)}
+        subtitles={[]}
+        onClick={() => {
+          alert("CLickeake")
+        }}
+        styles={
+          getStyles(CALIFICATIONS.actual, k)}
+        />
+    ))
+    const OLDS = data.old.map((x, k) => (
+      <View key={k}>
+        <Tag name={("Semester " + (
+          CALIFICATIONS.old.length - (k) + 1)).toUpperCase()}
+        />
+          {x.map((a, b) => (
+            <Item
+              key={b}
+              title={a.signature}
+              styles={getStyles(x, b)}
+              options={(
+                <Text style={{
+                  opacity:.45,
+                  fontSize:12.5
+                }}>
+                  {a.calification}
+                </Text>
+              )}
+              subtitles={[
+                (
+                  <View style={{
+                    flexDirection:"row",
+                    justifyContent:"center",
+                    alignContent:"center",
+                    alignItems:"center",
+                    borderRadius:5,
+                    paddingLeft:5,
+                    backgroundColor:
+                      a.is_aprove ?
+                        "rgba(27, 203, 86, .09)":
+                        "rgba(255, 59, 48, .09)"}}>
+                    <View>
+                      {a.is_aprove ? <CheckSvg/>:<FailSvg/>}
+                    </View>
+                    <Text
+                      style={{
+                        fontSize:10,
+                        color:a.is_aprove ? "#1bcb56":"#ff3b30",
+                        paddingLeft:3,
+                        paddingRight:5}}
+                    >
+                      {a.is_aprove ? "Approved":"Reprobate"}
+                    </Text>
+                  </View>
+                )
+              ]}
+            />
+          ))}
+      </View>
+    ))
+    ITEMS = (
+      <View>
+          <>
+            <Tag name={"Actual semester".toUpperCase()}/>
+            {ACTUAL}
+          </>
+          {OLDS}
+      </View>
+    )
+  }
+  
   return(
     <View style={styles.container}>
-      {/* <AppBar/> */}
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        refreshControl={
-          <RefreshControl refreshing={false}/>
-        }
-      >
-        <>
-          <Tag/>
-          <ItemGrup items={3}/>
-        </>
-        <>
-          <Tag/>
-          <ItemGrup items={5}/>
-        </>
-      </ScrollView>
+      {isLoad ? ITEMS:(
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl
+              onRefresh={() => {
+                Vibration.vibrate(settings.vibration)
+                setRefresh(() => true)
+              }}
+              refreshing={isRefresh}/>
+          }
+        >
+          {ITEMS}
+        </ScrollView>
+      )}
+      <BottomMenu show={show}>
+        <RenderBottomSheet/>
+      </BottomMenu>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
+  bottomContainer:{
+    flex:1,
+    justifyContent:'center'
+  },
   container:{
     flex:1,
-    paddingTop:40,
-    paddingLeft:15,
-    paddingRight:15,
-    backgroundColor:"#DFEDF8"
+    paddingTop:45,
+    paddingLeft:20,
+    paddingRight:20,
+    backgroundColor:"#F2F2F7"
   }
 })
