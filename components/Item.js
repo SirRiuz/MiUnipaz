@@ -38,6 +38,7 @@ export default Item = props => {
   if(props.onClick !== undefined)
     return (
       <Pressable
+        {...props}
         onPress={() => {props.onClick()}}
       >
         <ItemFragment {...props}/>

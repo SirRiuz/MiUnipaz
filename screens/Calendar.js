@@ -44,7 +44,7 @@ const BottomContent = props => {
       }
     },{
       title: "Location",
-      subtitle: props.data.location.room,
+      subtitle: "",
       icon:{
         color: "#2dacc3",
         svg: <LocationSvg/>

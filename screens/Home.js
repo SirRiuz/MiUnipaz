@@ -1,6 +1,7 @@
 import { StyleSheet, View } from "react-native"
 import HomeNavigationGrup from '../components/HomeNavigation'
 
+
 const Home = ({navigation}) => {
   return (
     <View style={styles.container}>

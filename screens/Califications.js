@@ -21,6 +21,10 @@ import {
 
 
 const RenderBottomSheet = props => {
+  const [show, setShow] = useState(false)
+
+  if(props.data === null){ return }
+
   return(
     <View style={styles.bottomContainer}>
       <Tag name="CALIFICATIONS"/>
@@ -33,7 +37,7 @@ const RenderBottomSheet = props => {
         }}
       >
         <Item
-          title={"4.5 semester average"}
+          title={"Semester average"}
           styles={{borderRadius:100}}
           titleStyle={{
             color:"#010101",
@@ -76,14 +80,14 @@ const RenderBottomSheet = props => {
         <View
           style={{paddingTop:9, opacity:.8}}
         >
-          {CALIFICATIONS.actual[0].califications.map((x, k) => (
+          {props.data.califications.map((x, k) => (
             <Item
               key={k}
-              title={"Value court 30%"}
+              title={"Value court " + x.porcentaje}
               icon={<Dot
-                focus={!(x.isBadCalification)}
+                focus={(x.isBadCalification)}
                 continue={!(
-                  k + 1==CALIFICATIONS.actual[0].califications.length)}
+                  (k + 1) == props.data.califications.length)}
               />}
               titleStyle={{
                 fontSize:13,
@@ -107,7 +111,7 @@ const RenderBottomSheet = props => {
                     opacity:.9,
                     color:'#505050'}}
                 >
-                  4.0
+                  {x.calification}
                 </Text>
               )}
             />
@@ -125,14 +129,14 @@ const RenderBottomSheet = props => {
         }}
       >
         <View>
-          {CALIFICATIONS.actual[0].califications.map((x, k) => (
+          {props.data.predictions.map((x, k) => (
             <Item
               key={k}
-              title={"First court"}
+              title={"Court " + (k + 1)}
               icon={<Dot
                 focus={!(x.isBadCalification)}
                 continue={!(
-                  k + 1==CALIFICATIONS.actual[0].califications.length)}
+                  (k + 1) == props.data.predictions.length)}
               />}
               titleStyle={{
                 fontSize:13,
@@ -156,7 +160,7 @@ const RenderBottomSheet = props => {
                     opacity:.9,
                     color:'#505050'}}
                 >
-                  4.0
+                  {x.calification}
                 </Text>
               )}
             />
@@ -170,6 +174,7 @@ const RenderBottomSheet = props => {
 export default Califications = props => {
   const [isRefresh, setRefresh] = useState(false)
   const [show, setShow] = useState(false)
+  const [modalData, setModalData] = useState(null)
   const { data, isLoad } = useCalifications({
     refresh:isRefresh}, () => {setRefresh(() => false)})
   
@@ -225,17 +230,19 @@ export default Califications = props => {
         title={x.signature}
         options={(<Open/>)}
         subtitles={[]}
-        onClick={() => {
-          alert("CLickeake")
+        onClick={(e) => {
+          Vibration.vibrate(settings.vibration)
+          setShow(() => true)
+          setModalData(() => x)
         }}
         styles={
-          getStyles(CALIFICATIONS.actual, k)}
+          getStyles(data.actual, k)}
         />
     ))
     const OLDS = data.old.map((x, k) => (
       <View key={k}>
         <Tag name={("Semester " + (
-          CALIFICATIONS.old.length - (k) + 1)).toUpperCase()}
+         (CALIFICATIONS.old.length - (k)) + 2)).toUpperCase()}
         />
           {x.map((a, b) => (
             <Item
@@ -310,8 +317,13 @@ export default Califications = props => {
           {ITEMS}
         </ScrollView>
       )}
-      <BottomMenu show={show}>
-        <RenderBottomSheet/>
+      <BottomMenu
+        onClose={() => {
+          setShow(() => false)
+          setModalData(() => null)
+        }}
+        show={show}>
+        <RenderBottomSheet data={modalData}/>
       </BottomMenu>
     </View>
   )
