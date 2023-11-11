@@ -20,59 +20,58 @@ import {
   View,
   RefreshControl,
   Text,
-  Vibration} from "react-native"
+  Vibration
+} from "react-native"
 
 
 const BottomContent = props => {
-  if(props.data === null)
+  if (props.data === null)
     return null
 
   const data = {
-    signature:[{
+    signature: [{
       title: "Teacher name",
       subtitle: props.data.teacher,
-      icon:{
+      icon: {
         color: "#c19100",
-        svg: <TeacherSvg/>
+        svg: <TeacherSvg />
       }
-    },{
+    }, {
       title: "Class name",
       subtitle: props.data.name,
-      icon:{
+      icon: {
         color: "#f0352a",
-        svg: <SignatureSvg/>
+        svg: <SignatureSvg />
       }
-    },{
+    }, {
       title: "Location",
-      subtitle: props.data.location.room,
-      icon:{
+      subtitle: "",
+      icon: {
         color: "#2dacc3",
-        svg: <LocationSvg/>
+        svg: <LocationSvg />
       }
     }],
-    time:[
+    time: [
       {
         title: "Total hours",
         subtitle: props.data.time.total_hours,
-        icon:{
+        icon: {
           color: "#ff9500",
-          svg: <AllTimeSvg/>
+          svg: <AllTimeSvg />
         }
-      },{
+      }, {
         title: "Class time",
-        subtitle: `${
-          props.data.time.str_date.start_class} - ${
-            props.data.time.str_date.end_class}`,
-        icon:{
+        subtitle: `${props.data.time.str_date.start_class} - ${props.data.time.str_date.end_class}`,
+        icon: {
           color: "#5856d6",
-          svg: <TimeRangeSvg/>
+          svg: <TimeRangeSvg />
         }
       }
     ]
   }
-  return(
+  return (
     <View>
-      <Tag name={"SIGNATURE"}/>
+      <Tag name={"SIGNATURE"} />
       <View>
         {data.signature.map((x, k) => (
           <>
@@ -81,33 +80,34 @@ const BottomContent = props => {
               subtitles={[""]}
               icon={(
                 <View style={{
-                  width:30,
-                  height:30,
-                  justifyContent:'center',
-                  alignItems:'center',
-                  borderRadius:9,
-                  marginRight:10,
-                  backgroundColor:x.icon.color
+                  width: 30,
+                  height: 30,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderRadius: 9,
+                  marginRight: 10,
+                  backgroundColor: x.icon.color
                 }}>
                   {x.icon.svg}
                 </View>
               )}
               titleStyle={{
-                width:90,
-                fontSize:14,
-                color: "black"}}
+                width: 90,
+                fontSize: 14,
+                color: "black"
+              }}
               title={x.title}
               key={k}
               options={(
                 <View
                   style={{
-                    width:170,
-                    alignItems:'flex-end'
+                    width: 170,
+                    alignItems: 'flex-end'
                   }}
                 >
                   <Text numberOfLines={1} style={{
-                    opacity:.45,
-                    fontSize:13
+                    opacity: .45,
+                    fontSize: 13
                   }}>{x.subtitle}</Text>
                 </View>
               )}
@@ -115,7 +115,7 @@ const BottomContent = props => {
           </>
         ))}
       </View>
-      <Tag name={"DATE/TIME"}/>
+      <Tag name={"DATE/TIME"} />
       <View>
         {data.time.map((x, k) => (
           <>
@@ -125,25 +125,26 @@ const BottomContent = props => {
               subtitles={[""]}
               icon={(
                 <View style={{
-                  width:30,
-                  height:30,
-                  justifyContent:'center',
-                  alignItems:'center',
-                  borderRadius:9,
-                  marginRight:10,
-                  backgroundColor:x.icon.color
+                  width: 30,
+                  height: 30,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderRadius: 9,
+                  marginRight: 10,
+                  backgroundColor: x.icon.color
                 }}>
                   {x.icon.svg}
                 </View>
               )}
               titleStyle={{
-                width:90,
-                fontSize:14,
-                color: "black"}}
+                width: 90,
+                fontSize: 14,
+                color: "black"
+              }}
               key={k}
               options={(
                 <Text style={{
-                  opacity:.85,
+                  opacity: .85,
                   color: '#828186'
                 }}>{x.subtitle}</Text>
               )}
@@ -160,8 +161,9 @@ export default Calendar = props => {
   const [showModal, setModal] = useState(false)
   const [modalData, setModalData] = useState(null)
 
-  const {isLoad, data} = useCalendar({
-    refresh:isRefresh }, () => setRefresh(() => false))
+  const { isLoad, data } = useCalendar({
+    refresh: isRefresh
+  }, () => setRefresh(() => false))
 
   var ITEMS = RESPONSE.days.map((x, k) => (
     <View key={k}>
@@ -169,10 +171,10 @@ export default Calendar = props => {
         (() => {
           const CALENDAR = RESPONSE.data.filter(
             el => el.day === x.name)
-          if(!CALENDAR.length <= 0)
+          if (!CALENDAR.length <= 0)
             return (
               <>
-                <Tag isPlaceholder={true}/>
+                <Tag isPlaceholder={true} />
                 {CALENDAR.map((a, b) => (
                   <Item
                     styles={getStyles(CALENDAR, b)}
@@ -181,15 +183,15 @@ export default Calendar = props => {
                     options={(
                       <View
                         style={{
-                          width:25,
-                          height:13,
-                          flexDirection:'row',
-                          justifyContent:'center',
-                          alignContent:'center',
-                          borderRadius:5,
-                          alignItems:'center',
-                          paddingLeft:5,
-                          backgroundColor:'#eeeef0'
+                          width: 25,
+                          height: 13,
+                          flexDirection: 'row',
+                          justifyContent: 'center',
+                          alignContent: 'center',
+                          borderRadius: 5,
+                          alignItems: 'center',
+                          paddingLeft: 5,
+                          backgroundColor: '#eeeef0'
                         }}
                       />
                     )}
@@ -197,29 +199,29 @@ export default Calendar = props => {
                       (
                         <View
                           style={{
-                            width:65,
-                            height:13,
-                            flexDirection:'row',
-                            justifyContent:'center',
-                            alignContent:'center',
-                            borderRadius:5,
-                            alignItems:'center',
-                            paddingLeft:5,
-                            backgroundColor:'#eeeef0'
+                            width: 65,
+                            height: 13,
+                            flexDirection: 'row',
+                            justifyContent: 'center',
+                            alignContent: 'center',
+                            borderRadius: 5,
+                            alignItems: 'center',
+                            paddingLeft: 5,
+                            backgroundColor: '#eeeef0'
                           }}
                         />
-                      ),(
+                      ), (
                         <View
                           style={{
-                            width:30,
-                            height:13,
-                            flexDirection:'row',
-                            justifyContent:'center',
-                            alignContent:'center',
-                            borderRadius:5,
-                            alignItems:'center',
-                            paddingLeft:5,
-                            backgroundColor:'#eeeef0'
+                            width: 30,
+                            height: 13,
+                            flexDirection: 'row',
+                            justifyContent: 'center',
+                            alignContent: 'center',
+                            borderRadius: 5,
+                            alignItems: 'center',
+                            paddingLeft: 5,
+                            backgroundColor: '#eeeef0'
                           }}
                         />
                       )
@@ -232,18 +234,18 @@ export default Calendar = props => {
       }
     </View>
   ))
-  
-  if(!isLoad && data !== null)
+
+  if (!isLoad && data !== null)
     ITEMS = data.days.map((x, k) => (
       <View key={k}>
         {
           (() => {
             const CALENDAR = data.data.filter(
               el => el.day === x.name)
-            if(!CALENDAR.length <= 0)
+            if (!CALENDAR.length <= 0)
               return (
                 <>
-                  <Tag name={x.name.toUpperCase()}/>
+                  <Tag name={x.name.toUpperCase()} />
                   {CALENDAR.map((a, b) => (
                     <Item
                       styles={getStyles(CALENDAR, b)}
@@ -252,59 +254,64 @@ export default Calendar = props => {
                       onClick={(e) => {
                         Vibration.vibrate(settings.vibration)
                         setModalData(() => a)
-                        setModal(() => true)}}
+                        setModal(() => true)
+                      }}
                       subtitles={[
                         (
                           <View style={{
-                            flexDirection:'row',
-                            justifyContent:'center',
-                            alignContent:'center',
-                            alignItems:'center',
-                            borderRadius:5,
-                            paddingLeft:5,
-                            backgroundColor:'#f0f7ff'}}>
+                            flexDirection: 'row',
+                            justifyContent: 'center',
+                            alignContent: 'center',
+                            alignItems: 'center',
+                            borderRadius: 5,
+                            paddingLeft: 5,
+                            backgroundColor: '#f0f7ff'
+                          }}>
                             <View style={{
-                              justifyContent:'center',
-                              alignContent:'center',
-                              alignItems:'center',
-                              backgroundColor:'#f2f2f7'}}>
-                              <ProfileSvg/>
+                              justifyContent: 'center',
+                              alignContent: 'center',
+                              alignItems: 'center',
+                              backgroundColor: '#f2f2f7'
+                            }}>
+                              <ProfileSvg />
                             </View>
                             <Text
                               style={{
-                                fontSize:10.5,
-                                color:'rgba(0, 112, 255, .85)',
-                                paddingLeft:4,
-                                paddingRight:5,
-                                borderRadius:3,
+                                fontSize: 10.5,
+                                color: 'rgba(0, 112, 255, .85)',
+                                paddingLeft: 4,
+                                paddingRight: 5,
+                                borderRadius: 3,
                               }}
                             >
                               {a.teacher}
                             </Text>
                           </View>
-                        ),(
+                        ), (
                           <View style={{
-                            flexDirection:'row',
-                            justifyContent:'center',
-                            alignContent:'center',
-                            borderRadius:5,
-                            alignItems:'center',
-                            paddingLeft:5,
-                            backgroundColor:'#eeeef0'}}>
+                            flexDirection: 'row',
+                            justifyContent: 'center',
+                            alignContent: 'center',
+                            borderRadius: 5,
+                            alignItems: 'center',
+                            paddingLeft: 5,
+                            backgroundColor: '#eeeef0'
+                          }}>
                             <View style={{
-                              justifyContent:'center',
-                              alignContent:'center',
-                              alignItems:'center',
-                              backgroundColor:'#f2f2f7'}}>
-                              <TimeSvg/>
+                              justifyContent: 'center',
+                              alignContent: 'center',
+                              alignItems: 'center',
+                              backgroundColor: '#f2f2f7'
+                            }}>
+                              <TimeSvg />
                             </View>
                             <Text
                               style={{
-                                fontSize:10,
-                                color:'#888787',
-                                paddingLeft:4,
-                                paddingRight:5,
-                                borderRadius:3,
+                                fontSize: 10,
+                                color: '#888787',
+                                paddingLeft: 4,
+                                paddingRight: 5,
+                                borderRadius: 3,
                               }}
                             >
                               {a.time.total_hours}
@@ -313,7 +320,7 @@ export default Calendar = props => {
                         )
                       ]}
                       options={(
-                        <Open/>
+                        <Open />
                       )}
                     />
                   ))}
@@ -323,10 +330,10 @@ export default Calendar = props => {
         }
       </View>
     ))
-  
-  return(
+
+  return (
     <View style={styles.container}>
-      {isLoad ? ITEMS:(
+      {isLoad ? ITEMS : (
         <ScrollView
           refreshControl={
             <RefreshControl
@@ -334,7 +341,7 @@ export default Calendar = props => {
                 Vibration.vibrate(settings.vibration)
                 setRefresh(() => true)
               }}
-              refreshing={isRefresh}/>
+              refreshing={isRefresh} />
           }
         >
           {ITEMS}
@@ -347,18 +354,18 @@ export default Calendar = props => {
           setModal(() => false)
         }}
       >
-        <BottomContent data={modalData}/>
+        <BottomContent data={modalData} />
       </BottomMenu>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  container:{
-    flex:1,
-    paddingTop:40,
-    paddingLeft:20,
-    paddingRight:20,
-    backgroundColor:"#F2F2F7"
+  container: {
+    flex: 1,
+    paddingTop: 40,
+    paddingLeft: 20,
+    paddingRight: 20,
+    backgroundColor: "#F2F2F7"
   }
 })

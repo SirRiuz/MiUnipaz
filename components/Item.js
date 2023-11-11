@@ -1,4 +1,4 @@
-import { 
+import {
   StyleSheet,
   View,
   Text,
@@ -6,20 +6,22 @@ import {
 } from "react-native"
 
 const ItemFragment = props => {
-  return(
-    <View style={{...styles.container, ...props.styles}}>
+  return (
+    <View style={{ ...styles.container, ...props.styles }}>
       <View style={styles.icon}>
         {props.icon}
       </View>
       <View style={styles.body}>
         <View style={styles.itemInfo}>
-          <View style={{...styles.title, backgroundColor:props.isPlaceholder 
-            ? '#eeeef0':'white', ...props.titleStyle}}>
+          <View style={{
+            ...styles.title, backgroundColor: props.isPlaceholder
+              ? '#eeeef0' : 'white', ...props.titleStyle
+          }}>
             <Text
-              style={{...styles.titleStr, ...props.titleStyle}}
+              style={{ ...styles.titleStr, ...props.titleStyle }}
               numberOfLines={1}
             >
-                {props.title}
+              {props.title}
             </Text>
           </View>
           <View style={styles.subTitle}>
@@ -35,66 +37,67 @@ const ItemFragment = props => {
 }
 
 export default Item = props => {
-  if(props.onClick !== undefined)
+  if (props.onClick !== undefined)
     return (
       <Pressable
-        onPress={() => {props.onClick()}}
+        {...props}
+        onPress={() => { props.onClick() }}
       >
-        <ItemFragment {...props}/>
+        <ItemFragment {...props} />
       </Pressable>
     )
 
-  return <ItemFragment {...props}/>
+  return <ItemFragment {...props} />
 }
 
 const styles = StyleSheet.create({
-  icon:{
-    justifyContent:'center',
-    alignContent:'center',
-    alignItems:'center'
+  icon: {
+    justifyContent: 'center',
+    alignContent: 'center',
+    alignItems: 'center'
   },
-  itemInfo:{
-    gap:3
+  itemInfo: {
+    gap: 3
   },
-  separator:{
-    width:3,
-    height:3,
-    backgroundColor:'rgba(0,0,0,0 .5)',
-    borderRadius:100,
+  separator: {
+    width: 3,
+    height: 3,
+    backgroundColor: 'rgba(0,0,0,0 .5)',
+    borderRadius: 100,
   },
-  subTitleStr:{
-    fontSize:11,
-    opacity:.55
+  subTitleStr: {
+    fontSize: 11,
+    opacity: .55
   },
-  titleStr:{
-    fontSize:14.5
+  titleStr: {
+    fontSize: 14.5
   },
-  option:{
-  },  
-  subTitle:{
-    flexDirection:'row',
-    gap:5,
-    borderRadius:10,
-    alignItems:'center',
+  option: {
   },
-  title:{
-    borderRadius:5,
-    width:210,
+  subTitle: {
+    flexDirection: 'row',
+    gap: 5,
+    borderRadius: 10,
+    alignItems: 'center',
   },
-  body:{
-    flex:1,
-    justifyContent:'space-between',
-    flexDirection:'row',
-    alignItems:'center',
+  title: {
+    borderRadius: 5,
+    width: 210,
   },
-  container:{
-    flexDirection:'row',
-    backgroundColor:'white',
-    marginBottom:.5,
-    borderRadius:4,
-    height:60,
+  body: {
+    flex: 1,
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  container: {
+    flexDirection: 'row',
+    backgroundColor: 'white',
+    marginBottom: .5,
+    borderRadius: 4,
+    height: 60,
     //elevation:.5,
-    paddingLeft:14,
-    paddingRight:14
+    paddingLeft: 14,
+    paddingRight: 14
   }
 })
