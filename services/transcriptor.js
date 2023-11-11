@@ -6,7 +6,8 @@ export default transcribeService = props => {
   data.append("file", {
     uri: props.file,
     type: 'audio/mpeg',
-    name: 'audiofile.mp3'})
+    name: 'audiofile.mp3'
+  })
 
   data.append("fileType", "mp3")
   data.append("language", "es")
@@ -14,12 +15,14 @@ export default transcribeService = props => {
 
   const headers = ({
     "Content-Type": `multipart/form-data`,
-    "Authorization": `Bearer ${settings.keys.whisperapi_key}`,})
+    "Authorization": `Bearer ${settings.keys.whisperapi_key}`,
+  })
 
   return fetch(settings.urls.whisperapi_url, {
     method: "post",
     body: data,
-    headers})
+    headers
+  })
 }
 
 

@@ -9,10 +9,8 @@ export default Voices = () => {
   const [data, setData] = useState(null)
 
   const start = async () => {
+    const { status } = await Permissions.askAsync(Permissions.AUDIO_RECORDING);
     setData(() => null)
-    // await Permissions.askAsync(Permissions.AUDIO_RECORDING)
-    // const { granted } = await Audio.getPermissionsAsync()
-    // if (!granted) {return}
     try {
       const { recording } = await Audio.Recording.createAsync(
         {
@@ -40,7 +38,9 @@ export default Voices = () => {
 
       setRecording(recording)
       setIsRecording(true)
-    } catch (error) {}
+    } catch (error) {
+      alert("Error")
+    }
   }
 
   const stop = async () => {

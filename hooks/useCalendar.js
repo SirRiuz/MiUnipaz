@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import calendarService from "../services/calendar"
 import settings from "../settings"
+import { Alert } from "react-native"
 
 export default useCalendar = (props, e) => {
   const [data, setData] = useState(null)
@@ -16,6 +17,10 @@ export default useCalendar = (props, e) => {
       })
         .then(res => {
           setData(() => res)
+        })
+        .catch(e => {
+          if(!isLoad)
+            Alert.alert("Error de conexion", "En este momento, estamos experimentando problemas en el servidor.")
         })
         .finally(() => {
           setLoad(() => false)

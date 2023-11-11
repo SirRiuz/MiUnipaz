@@ -1,32 +1,32 @@
 import { Pressable, StyleSheet, Text, View } from "react-native"
+import CalificationsSvg from "../assets/svg/Califications"
+import CalendarSvg from "../assets/svg/Calendar"
 
-const NAVIGATION_PAGES = [
-  {
-    name:"Calendar",
-    icon:"X"
-  }, {
-    name:"Califications",
-    icon:"X"
-  }
-]
+
+const NAVIGATION_PAGES = [CalendarSvg, CalificationsSvg]
 
 export default BottomNavigation = props => {
-  return(
+  return (
     <View style={styles.container}>
-      {NAVIGATION_PAGES.map((x, k) => (
+      {NAVIGATION_PAGES.map((Component, k) => (
         <Pressable
-          style={{flex:1}}
+          style={{ flex: 1 }}
           onPress={() => {
-            if(props.onClick !== undefined && !(props.index === k))
+            if(k !== props.index) {
               props.onClick(k)
-          }}
+            }
+          }}  
         >
-          <View style={{
-            ...styles.navigationItem,
-            backgroundColor: props.index === k ? 'red':'#F2F1F7'
-          }}>
-            <Text>x</Text>
-            <Text>{x.name}</Text>
+          <View style={styles.navigationItem}>
+            <Text style={{ color: 'red' }}>
+              {
+                <Component
+                  key={k}
+                  color={props.index === k ?
+                    '#007aff' : 'rgba(194, 194, 194, .85)'}
+                />
+              }
+            </Text>
           </View>
         </Pressable>
       ))}
@@ -35,17 +35,17 @@ export default BottomNavigation = props => {
 }
 
 const styles = StyleSheet.create({
-  navigationItem:{
-    flex:1,
-    justifyContent:'center',
-    alignContent:'center',
-    alignItems:'center',
-    backgroundColor:'red',
+  navigationItem: {
+    flex: 1,
+    justifyContent: 'center',
+    alignContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F2F1F7'
   },
-  container:{
-    flexDirection:'row',
-    justifyContent:'space-around',
-    height:45
+  container: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    height: 45
   }
 })
 

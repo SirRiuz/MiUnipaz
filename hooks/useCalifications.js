@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import settings from "../settings"
 import calificationsService from "../services/califications"
+import { Alert } from "react-native"
 
 export default useCalifications = (props, e) => {
   const [data, setData] = useState(null)
@@ -16,6 +17,9 @@ export default useCalifications = (props, e) => {
       })
         .then(res => {
           setData(() => res)
+        })
+        .catch(err => {
+          Alert.alert("Error de conexion", "En este momento, estamos experimentando problemas en el servidor.")
         })
         .finally(() => {
           setLoad(() => false)

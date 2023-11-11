@@ -6,7 +6,6 @@ const getToStorage = async hash => {
   try {
     return await AsyncStorage.getItem(hash)
   } catch (error) {
-    // saving error
   }
 }
 
@@ -15,7 +14,6 @@ const setToStorage = async (hash, data) => {
     const payload = JSON.stringify(data)
     await AsyncStorage.setItem(hash, payload)
   } catch (e) {
-    // saving error
   }
 }
 
@@ -27,18 +25,18 @@ export default client = async (url, config) => {
 
   const storage = await getToStorage(REQUEST_HASH)
 
-  if(storage === null || config.refresh) {
+  if (storage === null || config.refresh) {
     return fetch(url, config)
       .then((res) => (res.json()))
       .then(res => {
         setToStorage(REQUEST_HASH, res)
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve, _) => {
           resolve(res)
         })
       })
 
   } else {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve, _) => {
       resolve(JSON.parse(storage))
     })
   }

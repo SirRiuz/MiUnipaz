@@ -2,18 +2,18 @@ import { StyleSheet, View } from "react-native"
 import HomeNavigationGrup from '../components/HomeNavigation'
 
 
-const Home = ({navigation}) => {
+const Home = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <HomeNavigationGrup navigation={navigation}/>
+      <HomeNavigationGrup navigation={navigation} />
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  container:{
-    flex:1,
-    backgroundColor:'green'
+  container: {
+    flex: 1,
+    backgroundColor: 'green'
   }
 })
 
