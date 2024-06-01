@@ -9,10 +9,10 @@ const settings = {
     gtp_url: 'https://api.openai.com/v1/chat/completions'
   },
   keys: {
-    speechgen_email: 'devapps.mateo@gmail.com',
-    speechgen_key: '80ba0a713d453c7d5e1ca4d4ab3a1917',
-    gtp_key: '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',
-    whisperapi_key: 'Q4ISDGNPYNP8CBHGJIYW53VJSM4MEAB6'
+    speechgen_email: '...',
+    speechgen_key: '...',
+    gtp_key: '...',
+    whisperapi_key: '...'
   }
 }
 
